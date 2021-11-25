@@ -14,9 +14,10 @@ class DrawPlots:
         self.json = json
 
     def draw_plots(self) -> List[str] :
+        # checking if folder not exist create one
         if not os.path.isdir('plots'):
             os.mkdir('plots')
-
+        
         df = pd.read_json(self.json)
 
         def plot_columns(x: str, y :str) :
@@ -68,6 +69,8 @@ class DrawPlots:
         plt.show()
         
         f1_score(df['gt_corners'], df['rb_corners'], average='weighted')
+        # >>> 1.0
+
         # F1 score is one of the best metrics to measure model performance 
         # in multiclass classification problem.
         # Score 1.0 show that our model predicted all of the values correct.
