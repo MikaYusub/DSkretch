@@ -19,12 +19,25 @@ class DrawPlots:
 
         df = pd.read_json(self.json)
 
-        plt.scatter(df['ceiling_max'], df['floor_max'])
-        plt.title('Comparing ceiling_max and floor_max')
-        plt.xlabel('Ceiling_max')
-        plt.ylabel('Floor_max')
-        plt.savefig(f'plots\\{plt.gca().get_title().replace(" ","_")}.jpg')
-        plt.show()
+        def plot_columns(x: str, y :str) :
+            plt.scatter(df[x], df[y])
+            plt.title(f'Comparing {x} and {y}')
+            plt.xlabel(x.capitalize())
+            plt.ylabel(y.capitalize())
+            plt.savefig(f'plots\\{plt.gca().get_title().replace(" ","_")}.jpg')
+            plt.show()
+
+        plot_columns('ceiling_max','floor_max')
+        plot_columns('ceiling_min','floor_min')
+        plot_columns('ceiling_mean','floor_mean')
+
+        plot_columns('max','floor_max')
+        plot_columns('min','floor_min')
+        plot_columns('mean','floor_mean')
+
+        plot_columns('max','ceiling_max')
+        plot_columns('min','ceiling_min')
+        plot_columns('mean','ceiling_mean')
 
         # Plotting confusion matrix for results of model prediction
         df_cm = pd.DataFrame(
@@ -55,7 +68,8 @@ class DrawPlots:
         plt.show()
         
         f1_score(df['gt_corners'], df['rb_corners'], average='weighted')
-        # F1 score is one of the best metrics to measure model performance in multiclass classification problem.
-        # Score 1.0 show that our model predicted all values correct.
+        # F1 score is one of the best metrics to measure model performance 
+        # in multiclass classification problem.
+        # Score 1.0 show that our model predicted all of the values correct.
 
         return [path for path in glob.glob("plots\*")]
